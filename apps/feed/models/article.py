@@ -7,9 +7,9 @@ from core.model_handler import FeedlyModel
 class Article(FeedlyModel):
     title = models.CharField(_('Title'), max_length=150)
     link = models.URLField(_('Link'))
-    description = models.TextField(_('Description'), blank=True)
-    content = models.TextField(_('Content'), blank=True)
-    author = models.CharField(_('Author'), max_length=100, blank=True)
+    description = models.TextField(_('Description'), null=True, blank=True)
+    content = models.TextField(_('Content'), null=True, blank=True)
+    author = models.CharField(_('Author'), max_length=100, null=True, blank=True)
     feed = models.ForeignKey('Feed', verbose_name=_('Feed'), related_name='articles', on_delete=models.CASCADE)
 
     class Meta:
