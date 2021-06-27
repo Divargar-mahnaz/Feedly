@@ -10,6 +10,7 @@ from .models import Feed, Article, Comment
 from .serializer.article import ArticleSerializer
 from .serializer.comment import CommentSerializer
 from .serializer.feed import UserFeedsSerializer
+from .tasks import article_scrapy
 
 
 class ArticleScrapyAPIView(CreateAPIView):
@@ -21,7 +22,8 @@ class ArticleScrapyAPIView(CreateAPIView):
             request.data['feed'] = feed[0].id
         else:
             request.data['feed'] = None
-        return self.create(request, *args, **kwargs)
+        article_scrapy.delay(**request.data)
+        return Response(data={'message': 'add to queue successfully'}, status=status.HTTP_200_OK)
 
 
 class UserFeedsAPIView(ListView, UserAPIView):
