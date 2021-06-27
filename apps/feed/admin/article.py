@@ -7,6 +7,7 @@ from ..models import Article
 class ArticleAdmin(admin.ModelAdmin):
     list_display = ('id', 'title', 'feed_name', 'link')
     list_display_links = ('title',)
+    search_fields = ('feed__name',)
 
     def get_queryset(self, request):
         qs = super(ArticleAdmin, self).get_queryset(request)

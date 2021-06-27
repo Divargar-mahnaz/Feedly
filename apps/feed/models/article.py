@@ -10,8 +10,7 @@ class Article(FeedlyModel):
     description = models.TextField(_('Description'), blank=True)
     content = models.TextField(_('Content'), blank=True)
     author = models.CharField(_('Author'), max_length=100, blank=True)
-    pub_date = models.DateTimeField(_('Pub Date'), blank=True, null=True)
-    feed = models.ForeignKey('Feed', verbose_name=_('Feed'), related_name='feed', on_delete=models.CASCADE)
+    feed = models.ForeignKey('Feed', verbose_name=_('Feed'), related_name='articles', on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'article'
