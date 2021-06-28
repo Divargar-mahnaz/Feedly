@@ -7,6 +7,7 @@ from ..models import Feed
 @admin.register(Feed)
 class FeedAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'link', 'image_tag')
+    list_display_links = ('id', 'name')
 
     def image_tag(self, obj):
         return format_html('<img src="{}" width="35px" height="35px"/>'.format(obj.image.url))

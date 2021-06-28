@@ -23,6 +23,11 @@ class ArticleScrapyAPIView(APIView):
         return Response(data={'message': 'Data Add To Queue'}, status=status.HTTP_200_OK)
 
 
+class AllFeedsAPIView(ListView):
+    serializer_class = UserFeedsSerializer
+    queryset = Feed.objects.all()
+
+
 class UserFeedsAPIView(ListView, UserAPIView):
     serializer_class = UserFeedsSerializer
 

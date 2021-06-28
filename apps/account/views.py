@@ -14,7 +14,9 @@ class UserRegisterAPIView(NoAuthAPIView):
     def post(self, request, *args, **kwargs):
         serialized = UserRegisterSerializer(data=request.data)
         if serialized.is_valid(raise_exception=True):
-            User.objects.create_user(**serialized.data)
+            user = User.objects.create(**serialized.data)
+            user.set_password(request.data['password'])
+            user.save()
             return Response(serialized.data, status=status.HTTP_201_CREATED)
         else:
             raise UserRegisterFailed
