@@ -3,7 +3,7 @@ from rest_framework import status
 from rest_framework.exceptions import NotFound
 from rest_framework.generics import CreateAPIView, RetrieveAPIView
 from rest_framework.response import Response
-
+from rest_framework.views import APIView
 from core.view_handler import ListView, UserAPIView
 from .exceptions import FeedNotRegister
 from .models import Feed, Article, Comment
@@ -13,17 +13,14 @@ from .serializer.feed import UserFeedsSerializer
 from .tasks import article_scrapy
 
 
-class ArticleScrapyAPIView(CreateAPIView):
-    serializer_class = ArticleSerializer
-
+class ArticleScrapyAPIView(APIView):
     def post(self, request, *args, **kwargs):
         feed = Feed.objects.filter(name=request.data.get('feed', None))
         if feed:
             request.data['feed'] = feed[0].id
-        else:
-            request.data['feed'] = None
+        ArticleSerializer(data=request.data).is_valid(raise_exception=True)
         article_scrapy.delay(**request.data)
-        return Response(data={'message': 'add to queue successfully'}, status=status.HTTP_200_OK)
+        return Response(data={'message': 'Data Add To Queue'}, status=status.HTTP_200_OK)
 
 
 class UserFeedsAPIView(ListView, UserAPIView):
