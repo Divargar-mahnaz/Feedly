@@ -60,4 +60,3 @@ class ViewTests(APITestCase):
         response = self.auth_post('mahnaz.divargar@gmail.com', url, data)
         print(Comment.objects.get(user=1, article=1))
         self.assertEqual(Comment.objects.get(user=1, article=1).comment, 'add comment for article 1')
-
